@@ -1,7 +1,7 @@
 ### Scrape Doctor Profile Data from State's Board of Medicine Websites
 
-an introduction to extracting machine readable data from web pages
+an example to use selenium + lxml to extract table data from web pages
 
-written for Oakland Data Day 2014, part of the international Open Data Day
+I'll use the Washington DC board of medicine website as an example.
 
 ![alt tag](https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/dc.png)
