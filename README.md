@@ -4,4 +4,4 @@ an example of using <strong>selenium + lxml</strong> libs to extract table data 
 
 I'll use the Washington DC board of medicine website as an example: https://app.hpla.doh.dc.gov/Weblookup/
 
-![alt tag](https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/dc.png)
+![](./img/dc.png =250x)
