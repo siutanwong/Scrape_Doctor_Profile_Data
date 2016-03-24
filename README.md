@@ -1,6 +1,6 @@
 ### Scrape Doctor Profile Data from State's Board of Medicine Websites
 
-an example to use selenium + lxml to extract table data from web pages.
+an example of using <strong>selenium + lxml</strong> to extract table data from web pages.
 
 I'll use the Washington DC board of medicine website as an example: https://app.hpla.doh.dc.gov/Weblookup/
 
