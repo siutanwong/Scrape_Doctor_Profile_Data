@@ -50,4 +50,4 @@ We can select this button and add a .click function in our script:
 search_button = driver.find_element_by_id("sch_button")
 search_button.click()
 ```
-Now when you run it, a Firefox broswer will open. It will select the license Type we chose, and submit the form to the server.:musical_note:
+Now when you run our script, a Firefox broswer will pop out and submit the form to the server.:musical_note:
