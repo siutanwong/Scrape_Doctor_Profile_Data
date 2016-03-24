@@ -1,2 +1,2 @@
-### Scrape Doctor's Profile data from State's Board of Medicine website
+### Scrape Doctor Profile Data from State's Board of Medicine Websites
 Use requests/lxml/selenium/beautifulsoup to scrape doctor lists from your state's Board of Medicine website
