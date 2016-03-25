@@ -51,3 +51,48 @@ search_button = driver.find_element_by_id("sch_button")
 search_button.click()
 ```
 Now when you run our script, a Firefox broswer will pop out and submit the form to the server.:musical_note:
+
+#### Extracting the search results
+Let's create a function called ```get_data()``` and use the ```html``` function from ```lxml``` to extract the table data (ps: you can also use beautifulsoup if you like, I like lxml better because it is more straight forward.)
+```
+def get_data(source):
+    texts = []
+    content = html.fromstring(source)
+    rows - content.xpath(".//table[id@='datagrid_results']//tr")
+    for row in rows:
+        columns = row.xpath(".//td")
+        text = [col.text_content() for col in columns]
+        texts.append(text)
+    return texts
+```
+This function will extract all the table dat on the current page, and put it in the list ```texts```.
+
+#### Pagination
+When you scoll down to the bottom of the page, you will notice that it only shows 40 pages at a time:
+![](.//img/page.png)
+And when you click the "..." next to page 40, it will take to page 41 - 80, and so on so forth.
+In order to get all the reuslts, we need to find the ```xpath``` of each page  number link, starting with page2:
+```
+def go_to_next_page():
+    next_page_link = driver.find_element_by_xpath("//table[@id='datagrid_results']//tr//td//span/following-sibling::a")
+    next_page_link.click()
+```
+This function allows the script to go through all the ```<a>```tags that contain the page number link.
+Now we have all the stuff we need to extract data from this database, all we need to do write the data into a csv file:
+```
+With open("dc.csv", "wb") as output:
+    writer = csv.writer(output, delimiter=",")
+    While True:
+        data_from_page = get_data(driver.page_source)
+        writer.writerows(data_from_page)
+        try:
+            go_to_next_page()
+        except:
+            break
+driver.close()
+```
+####Conclusion
+That's all! Run the script on your computer and go get yourself a cup of coffee:coffee:By the time you come back, the data will be ready for you in a csv file!:octocat:
+
+####Contact
+If you have questions regarding the script or scraping in general, feel free to shoot me an email at wongsiutan@gmail.com
