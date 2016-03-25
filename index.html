@@ -1,37 +1,25 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Scrape doctor profile data : Use selenium to scrape doctor profile data from state&#39;s board of medicine website">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Scrape doctor profile data</title>
+    <meta charset="UTF-8">
+    <title>Scrape doctor profile data by siutanwong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Scrape doctor profile data</h1>
+      <h2 class="project-tagline">Use selenium to scrape doctor profile data from state&#39;s board of medicine website</h2>
+      <a href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data" class="btn">View on GitHub</a>
+      <a href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data">View on GitHub</a>
-
-          <h1 id="project_title">Scrape doctor profile data</h1>
-          <h2 id="project_tagline">Use selenium to scrape doctor profile data from state&#39;s board of medicine website</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
+    <section class="main-content">
+      <h3>
 <a id="scrape-doctor-profile-data-from-states-board-of-medicine-websites" class="anchor" href="#scrape-doctor-profile-data-from-states-board-of-medicine-websites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scrape Doctor Profile Data from State's Board of Medicine Websites</h3>
 
 <p>an example of using <strong>selenium + lxml</strong> libs to extract table data from web pages.</p>
@@ -39,11 +27,9 @@
 <h3>
 <a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
 
-<p>I'll use the Washington DC board of medicine website as an example: <a href="https://app.hpla.doh.dc.gov/Weblookup/">https://app.hpla.doh.dc.gov/Weblookup/</a>
-<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/dc.png" alt=""></p>
+<p>I'll use the Washington DC board of medicine website as an example: <a href="https://app.hpla.doh.dc.gov/Weblookup/">https://app.hpla.doh.dc.gov/Weblookup/</a></p>
 
-<p>My goal is to scrape all the search results (multiple pages) from the .asp website and then save the data into a csv file.
-<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/table.png" alt=""></p>
+<p>My goal is to scrape all the search results (multiple pages) from the .asp website and then save the data into a csv file.</p>
 
 <p>First, let's set up our environment:</p>
 
@@ -71,8 +57,7 @@ driver.get("https://app.hpla.doh.dc.gov/Weblookup/")
 <h4>
 <a id="selecting-from-the-license-type-dropdown-menu" class="anchor" href="#selecting-from-the-license-type-dropdown-menu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selecting from the "License Type" dropdown menu</h4>
 
-<p><img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/table.png" alt="">
-If you look at the HTML associated with this dropdown menu, you will see the <code>name</code> that attributes to it is <code>t_web_lookup__license_type_name</code>
+<p>If you look at the HTML associated with this dropdown menu, you will see the <code>name</code> that attributes to it is <code>t_web_lookup__license_type_name</code>
 Next, select "Medicine and Surgery" from the dropdown and click the "Inspect Element", you will find the value associated with it is <code>"MEDICINE AND SURGERY"</code>.</p>
 
 <p>Let's add these attributions in our script:</p>
@@ -84,8 +69,7 @@ dropdown.select_by_value("MEDICINE AND SURGERY")
 <h4>
 <a id="click-the-search-button" class="anchor" href="#click-the-search-button" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Click the Search button</h4>
 
-<p>Like the dropdown, we need to find the HTML of the search button on the search page, here it is in the web inspector:
-<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/page.png" alt=""></p>
+<p>Like the dropdown, we need to find the HTML of the search button on the search page, here it is in the web inspector:</p>
 
 <p>We can select this button and add a .click function in our script:</p>
 
@@ -116,9 +100,9 @@ search_button.click()
 <h4>
 <a id="pagination" class="anchor" href="#pagination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pagination</h4>
 
-<p>When you scoll down to the bottom of the page, you will notice that it only shows 40 pages at a time:
-<img src=".//img/page.png" alt="">
-And when you click the "..." next to page 40, it will take to page 41 - 80, and so on so forth.
+<p>When you scoll down to the bottom of the page, you will notice that it only shows 40 pages at a time:</p>
+
+<p>And when you click the "..." next to page 40, it will take to page 41 - 80, and so on so forth.
 In order to get all the reuslts, we need to find the <code>xpath</code> of each page  number link, starting with page2:</p>
 
 <pre><code>def go_to_next_page():
@@ -151,18 +135,15 @@ By the time you come back, the data will be ready for you in a csv file!</p>
 <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h4>
 
 <p>If you have questions regarding the script or scraping in general, feel free to shoot me an email at <a href="mailto:wongsiutan@gmail.com">wongsiutan@gmail.com</a></p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Scrape doctor profile data maintained by <a href="https://github.com/siutanwong">siutanwong</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data">Scrape doctor profile data</a> is maintained by <a href="https://github.com/siutanwong">siutanwong</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
