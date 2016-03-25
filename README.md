@@ -92,7 +92,8 @@ With open("dc.csv", "wb") as output:
 driver.close()
 ```
 ####Conclusion
-That's all! Run the script on your computer and go get yourself a cup of coffee:coffee:By the time you come back, the data will be ready for you in a csv file!:octocat:
+That's all! Run the script on your computer and go get yourself a cup of coffee :coffee:
+By the time you come back, the data will be ready for you in a csv file! :octocat:
 
 ####Contact
 If you have questions regarding the script or scraping in general, feel free to shoot me an email at wongsiutan@gmail.com
