@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Scrape doctor profile data : Use selenium to scrape doctor profile data from state&#39;s board of medicine website">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Scrape doctor profile data</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data">View on GitHub</a>
+
+          <h1 id="project_title">Scrape doctor profile data</h1>
+          <h2 id="project_tagline">Use selenium to scrape doctor profile data from state&#39;s board of medicine website</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h3>
+<a id="scrape-doctor-profile-data-from-states-board-of-medicine-websites" class="anchor" href="#scrape-doctor-profile-data-from-states-board-of-medicine-websites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Scrape Doctor Profile Data from State's Board of Medicine Websites</h3>
+
+<p>an example of using <strong>selenium + lxml</strong> libs to extract table data from web pages.</p>
+
+<h3>
+<a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
+
+<p>I'll use the Washington DC board of medicine website as an example: <a href="https://app.hpla.doh.dc.gov/Weblookup/">https://app.hpla.doh.dc.gov/Weblookup/</a></p>
+
+<p><img src=".//img/dc.png" alt=""></p>
+
+<p>My goal is to scrape all the search results (multiple pages) from the .asp website and then save the data into a csv file.
+<img src=".//img/table.png" alt=""></p>
+
+<p>First let's set up our environment:</p>
+
+<pre><code>$ pip install selenium
+$ pip install lxml
+</code></pre>
+
+<p>Then we add the following libs in our script</p>
+
+<pre><code>from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
+from selenium.webdriver.support.ui import WebDriverWait
+from lxml import html
+import csv
+</code></pre>
+
+<h4>
+<a id="loading-the-search-page" class="anchor" href="#loading-the-search-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Loading the search page</h4>
+
+<pre><code>driver = webdriver.Firefox()
+driver.get("https://app.hpla.doh.dc.gov/Weblookup/")
+</code></pre>
+
+<h4>
+<a id="selecting-from-the-license-type-dropdown-menu" class="anchor" href="#selecting-from-the-license-type-dropdown-menu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selecting from the "License Type" dropdown menu</h4>
+
+<p>If you look at the HTML associated with this dropdown menu, you will see the <code>name</code> that attributes to it is <code>t_web_lookup__license_type_name</code>
+Next, select "Medicine and Surgery" from the dropdown and click the "Inspect Element", you will find the value associated with it is <code>"MEDICINE AND SURGERY"</code>.</p>
+
+<p>Let's add these attributions in our script:</p>
+
+<pre><code>dropdown = Select(driver.find_element_by_name("t_web_lookup__license_type_name"))
+dropdown.select_by_value("MEDICINE AND SURGERY")
+</code></pre>
+
+<h4>
+<a id="click-the-search-button" class="anchor" href="#click-the-search-button" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Click the Search button</h4>
+
+<p>Like the dropdown, we need to find the HTML of the search button on the search page, here it is in the web inspector:
+<img src=".//img/id.png" alt=""></p>
+
+<p>We can select this button and add a .click function in our script:</p>
+
+<pre><code>search_button = driver.find_element_by_id("sch_button")
+search_button.click()
+</code></pre>
+
+<p>Now when you run our script, a Firefox broswer will pop out and submit the form to the server.<img class="emoji" title=":musical_note:" alt=":musical_note:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3b5.png" height="20" width="20" align="absmiddle"></p>
+
+<h4>
+<a id="extracting-the-search-results" class="anchor" href="#extracting-the-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extracting the search results</h4>
+
+<p>Let's create a function called <code>get_data()</code> and use the <code>html</code> function from <code>lxml</code> to extract the table data (ps: you can also use beautifulsoup if you like, I like lxml better because it is more straight forward.)</p>
+
+<pre><code>def get_data(source):
+    texts = []
+    content = html.fromstring(source)
+    rows - content.xpath(".//table[id@='datagrid_results']//tr")
+    for row in rows:
+        columns = row.xpath(".//td")
+        text = [col.text_content() for col in columns]
+        texts.append(text)
+    return texts
+</code></pre>
+
+<p>This function will extract all the table dat on the current page, and put it in the list <code>texts</code>.</p>
+
+<h4>
+<a id="pagination" class="anchor" href="#pagination" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pagination</h4>
+
+<p>When you scoll down to the bottom of the page, you will notice that it only shows 40 pages at a time:
+<img src=".//img/page.png" alt="">
+And when you click the "..." next to page 40, it will take to page 41 - 80, and so on so forth.
+In order to get all the reuslts, we need to find the <code>xpath</code> of each page  number link, starting with page2:</p>
+
+<pre><code>def go_to_next_page():
+    next_page_link = driver.find_element_by_xpath("//table[@id='datagrid_results']//tr//td//span/following-sibling::a")
+    next_page_link.click()
+</code></pre>
+
+<p>This function allows the script to go through all the <code>&lt;a&gt;</code>tags that contain the page number link.
+Now we have all the stuff we need to extract data from this database, all we need to do write the data into a csv file:</p>
+
+<pre><code>With open("dc.csv", "wb") as output:
+    writer = csv.writer(output, delimiter=",")
+    While True:
+        data_from_page = get_data(driver.page_source)
+        writer.writerows(data_from_page)
+        try:
+            go_to_next_page()
+        except:
+            break
+driver.close()
+</code></pre>
+
+<h4>
+<a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conclusion</h4>
+
+<p>That's all! Run the script on your computer and go get yourself a cup of coffee <img class="emoji" title=":coffee:" alt=":coffee:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2615.png" height="20" width="20" align="absmiddle">
+By the time you come back, the data will be ready for you in a csv file! <img class="emoji" title=":octocat:" alt=":octocat:" src="https://assets-cdn.github.com/images/icons/emoji/octocat.png" height="20" width="20" align="absmiddle"></p>
+
+<h4>
+<a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h4>
+
+<p>If you have questions regarding the script or scraping in general, feel free to shoot me an email at <a href="mailto:wongsiutan@gmail.com">wongsiutan@gmail.com</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Scrape doctor profile data maintained by <a href="https://github.com/siutanwong">siutanwong</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
