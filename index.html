@@ -39,14 +39,13 @@
 <h3>
 <a id="background" class="anchor" href="#background" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Background</h3>
 
-<p>I'll use the Washington DC board of medicine website as an example: <a href="https://app.hpla.doh.dc.gov/Weblookup/">https://app.hpla.doh.dc.gov/Weblookup/</a></p>
-
-<p><img src=".//img/dc.png" alt=""></p>
+<p>I'll use the Washington DC board of medicine website as an example: <a href="https://app.hpla.doh.dc.gov/Weblookup/">https://app.hpla.doh.dc.gov/Weblookup/</a>
+<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/dc.png" alt=""></p>
 
 <p>My goal is to scrape all the search results (multiple pages) from the .asp website and then save the data into a csv file.
-<img src=".//img/table.png" alt=""></p>
+<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/table.png" alt=""></p>
 
-<p>First let's set up our environment:</p>
+<p>First, let's set up our environment:</p>
 
 <pre><code>$ pip install selenium
 $ pip install lxml
@@ -72,7 +71,8 @@ driver.get("https://app.hpla.doh.dc.gov/Weblookup/")
 <h4>
 <a id="selecting-from-the-license-type-dropdown-menu" class="anchor" href="#selecting-from-the-license-type-dropdown-menu" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Selecting from the "License Type" dropdown menu</h4>
 
-<p>If you look at the HTML associated with this dropdown menu, you will see the <code>name</code> that attributes to it is <code>t_web_lookup__license_type_name</code>
+<p><img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/table.png" alt="">
+If you look at the HTML associated with this dropdown menu, you will see the <code>name</code> that attributes to it is <code>t_web_lookup__license_type_name</code>
 Next, select "Medicine and Surgery" from the dropdown and click the "Inspect Element", you will find the value associated with it is <code>"MEDICINE AND SURGERY"</code>.</p>
 
 <p>Let's add these attributions in our script:</p>
@@ -85,7 +85,7 @@ dropdown.select_by_value("MEDICINE AND SURGERY")
 <a id="click-the-search-button" class="anchor" href="#click-the-search-button" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Click the Search button</h4>
 
 <p>Like the dropdown, we need to find the HTML of the search button on the search page, here it is in the web inspector:
-<img src=".//img/id.png" alt=""></p>
+<img src="https://github.com/siutanwong/Scrape_Doctor_Profile_Data/blob/master/img/page.png" alt=""></p>
 
 <p>We can select this button and add a .click function in our script:</p>
 
@@ -93,7 +93,7 @@ dropdown.select_by_value("MEDICINE AND SURGERY")
 search_button.click()
 </code></pre>
 
-<p>Now when you run our script, a Firefox broswer will pop out and submit the form to the server.<img class="emoji" title=":musical_note:" alt=":musical_note:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f3b5.png" height="20" width="20" align="absmiddle"></p>
+<p>Now when you run our script, a Firefox broswer will pop out and submit the form to the server.</p>
 
 <h4>
 <a id="extracting-the-search-results" class="anchor" href="#extracting-the-search-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extracting the search results</h4>
@@ -145,7 +145,7 @@ driver.close()
 <a id="conclusion" class="anchor" href="#conclusion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conclusion</h4>
 
 <p>That's all! Run the script on your computer and go get yourself a cup of coffee <img class="emoji" title=":coffee:" alt=":coffee:" src="https://assets-cdn.github.com/images/icons/emoji/unicode/2615.png" height="20" width="20" align="absmiddle">
-By the time you come back, the data will be ready for you in a csv file! <img class="emoji" title=":octocat:" alt=":octocat:" src="https://assets-cdn.github.com/images/icons/emoji/octocat.png" height="20" width="20" align="absmiddle"></p>
+By the time you come back, the data will be ready for you in a csv file!</p>
 
 <h4>
 <a id="contact" class="anchor" href="#contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contact</h4>
